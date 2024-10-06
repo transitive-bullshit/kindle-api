@@ -23,7 +23,7 @@
 
 ## Intro
 
-This package is rewrite and extension of https://github.com/Xetera/kindle-api-ky.
+This package is rewrite and extension of https://github.com/Xetera/kindle-api.
 
 It provides a simple TypeScript client for accessing Kindle's unofficial API.
 
@@ -231,4 +231,4 @@ This library is not endorsed or supported by Amazon / Kindle. It is an unofficia
 
 MIT © [Travis Fischer](https://x.com/transitive_bs)
 
-This package is rewrite and extension of https://github.com/Xetera/kindle-api-ky.
+This package is rewrite and extension of https://github.com/Xetera/kindle-api.
