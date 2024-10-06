@@ -9,10 +9,8 @@ async function main() {
   await kindle.init()
   console.log(JSON.stringify(kindle.books, null, 2))
 
-  const bookDetails = await kindle.getBookDetails('B0819W19WD')
+  const bookDetails = await kindle.getBookDetails(kindle.books[0]!.asin)
   console.log(JSON.stringify(bookDetails, null, 2))
-
-  await kindle.getBookContent('B0819W19WD')
 }
 
 try {

@@ -1,11 +1,11 @@
-# kindle-api <!-- omit from toc -->
+# kindle-api-ky <!-- omit from toc -->
 
 > TypeScript client for Kindle's unofficial API.
 
 <p>
-  <a href="https://github.com/transitive-bullshit/kindle-api/actions/workflows/main.yml"><img alt="Build Status" src="https://github.com/transitive-bullshit/kindle-api/actions/workflows/main.yml/badge.svg" /></a>
-  <a href="https://www.npmjs.com/package/kindle-api"><img alt="NPM" src="https://img.shields.io/npm/v/kindle-api.svg" /></a>
-  <a href="https://github.com/transitive-bullshit/kindle-api/blob/main/license"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
+  <a href="https://github.com/transitive-bullshit/kindle-api-ky/actions/workflows/main.yml"><img alt="Build Status" src="https://github.com/transitive-bullshit/kindle-api-ky/actions/workflows/main.yml/badge.svg" /></a>
+  <a href="https://www.npmjs.com/package/kindle-api-ky"><img alt="NPM" src="https://img.shields.io/npm/v/kindle-api-ky.svg" /></a>
+  <a href="https://github.com/transitive-bullshit/kindle-api-ky/blob/main/license"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
   <a href="https://prettier.io"><img alt="Prettier Code Formatting" src="https://img.shields.io/badge/code_style-prettier-brightgreen.svg" /></a>
 </p>
 
@@ -15,14 +15,17 @@
   - [Cookies](#cookies)
   - [Device Token](#device-token)
 - [Usage](#usage)
+  - [Environment Variables](#environment-variables)
   - [Book Details](#book-details)
-  - [TODO](#todo)
+  - [Book Content Manifest](#book-content-manifest)
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
 ## Intro
 
-TODO
+This package is rewrite and extension of https://github.com/Xetera/kindle-api-ky.
+
+It provides a simple TypeScript client for accessing Kindle's unofficial API.
 
 > [!IMPORTANT]
 > This library is not officially supported by Amazon / Kindle. Using this library might violate Kindle's Terms of Service. Use it at your own risk.
@@ -30,16 +33,68 @@ TODO
 ## Install
 
 ```sh
-npm install kindle-api
+npm install kindle-api-ky
 ```
 
 ## Setup
 
 This library does depends on an external [tls-client-api](https://github.com/bogdanfinn/tls-client-api) to proxy requests due to amazon's recent changes to their TLS fingerprinting. You'll need to run the server locally to be able to use this library. It's quite easy to set up and have one running in a few minutes and will save you tons of headache if you wanna do other kinds of scraping in the future.
 
+<details>
+
+<summary>
+This is the `config.dist.yml` file I'm using locally for testing:
+</summary>
+
+The only thing I changed form the defaults is the `api_auth_keys` which you'll need to set as an environment variable `TLS_SERVER_API_KEY`.
+
+```yml
+env: dev
+
+app_project: tls-client
+app_family: tls-client
+app_name: api
+
+log:
+  handlers:
+    main:
+      formatter: console
+      level: info
+      timestamp_format: '15:04:05:000'
+      type: iowriter
+      writer: stdout
+
+sentry:
+  dsn: ''
+  release: ''
+  tags:
+    project: tls-client
+    component: tls-client-api
+
+api:
+  port: 8080
+  mode: release
+  health:
+    port: 8081
+  timeout:
+    read: 120s
+    write: 120s
+    idle: 120s
+
+api_auth_keys: ['agentic-auth-key']
+
+api_cors_allowed_origin_pattern: ''
+api_cors_allowed_headers: ['X-API-KEY', 'X-API-VIEW', 'Content-Type']
+api_cors_allowed_methods: ['POST', 'GET', 'PUT', 'DELETE']
+```
+
+</details>
+
 ### Cookies
 
-Amazon's login system is quite strict and the SMS 2FA makes automating logins difficult. Instead of trying to automate that with puppeteer and slow things down, we use 4 cookies that stay valid for an entire year. (**TODO: one or more of these cookies is expiring every few minutes**)
+Amazon's login system is quite strict and the SMS 2FA makes automating logins difficult. Instead of trying to automate that with puppeteer and slow things down, we use 4 cookies that stay valid for an entire year.
+
+**TODO: One or more of these cookies is expiring every few minutes...**
 
 - `ubid-main`
 - `at-main`
@@ -63,7 +118,7 @@ Both of those identifiers should be the same.
 ## Usage
 
 ```ts
-import { KindleClient } from 'kindle-api'
+import { KindleClient } from 'kindle-api-ky'
 
 const kindle = new KindleClient({
   cookies: 'ubid-main=xxx.xxxx ...',
@@ -108,10 +163,22 @@ console.log(kindle.books)
 */
 ```
 
+### Environment Variables
+
+Instead of passing values directly to `KindleClient`, you can alternatively use env vars:
+
+```sh
+KINDLE_COOKIES='TODO'
+KINDLE_DEVICE_TOKEN='TODO'
+
+TLS_SERVER_URL='TODO'
+TLS_SERVER_API_KEY='TODO'
+```
+
 ### Book Details
 
 ```ts
-const bookDetails = await kindle.getBookDetails(kindle.books[0])
+const bookDetails = await kindle.getBookDetails(kindle.books[0]!.asin)
 
 console.log(bookDetails)
 
@@ -146,13 +213,13 @@ console.log(bookDetails)
 */
 ```
 
-### TODO
+### Book Content Manifest
 
-- book contents via browserbase (remote playwright)
-  - doesn't work because reader pages fail to render
-- book contents via local playwright
-- recreate kindle webapp renderer
-- screenshots from browser extension
+Kindle uses heavy DRM and obfuscation for the actual book contents. We can, however get some rendering manifest data that is very useful. This method Returns a TAR file as a binary-encoded string. Unzipping the TAR file will result in about a dozen JSON files which specify different aspects of the book's pre-rendered content, layout, TOC, and metadata.
+
+```ts
+const manifestTar = await kindle.getBookContentManifest(kindle.books[0]!.asin)
+```
 
 ## Disclaimer
 
@@ -162,4 +229,4 @@ This library is not endorsed or supported by Amazon / Kindle. It is an unofficia
 
 MIT © [Travis Fischer](https://x.com/transitive_bs)
 
-This package is rewrite and extension of https://github.com/Xetera/kindle-api.
+This package is rewrite and extension of https://github.com/Xetera/kindle-api-ky.

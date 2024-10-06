@@ -1,12 +1,12 @@
 {
-  "name": "kindle-api",
+  "name": "kindle-api-ky",
   "version": "0.1.0",
   "description": "API client for accessing Kindle's unofficial API.",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/transitive-bullshit/kindle-api.git"
+    "url": "git+https://github.com/transitive-bullshit/kindle-api-ky.git"
   },
   "packageManager": "pnpm@9.11.0",
   "engines": {

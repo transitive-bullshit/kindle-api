@@ -1,5 +1,3 @@
-import fs from 'node:fs/promises'
-
 import defaultKy, { type KyInstance } from 'ky'
 import pThrottle from 'p-throttle'
 
@@ -258,12 +256,18 @@ export class KindleClient {
     }
   }
 
-  async getBookContent(asin: string): Promise<void> {
+  /**
+   * Returns a TAR file as a binary-encoded string. Unzipping the TAR file will
+   * result in about a dozen JSON files which specify different aspects of the
+   * book's pre-rendered content, layout, TOC, and metadata.
+   */
+  async getBookContentManifest(asin: string): Promise<string> {
+    // TODO: make all of these params configurable.
     const params = {
       version: 3.0,
       asin,
       contentType: 'FullBook',
-      revision: 'da38557c', // TODO?
+      revision: 'da38557c', // TODO: this is book-specific!!
       fontFamily: 'Bookerly',
       fontSize: 8.91,
       lineHeight: 1.4,
@@ -305,7 +309,7 @@ export class KindleClient {
       )
     }
 
-    await fs.writeFile(`out/${asin}.tar`, body)
+    return body
   }
 
   /**
