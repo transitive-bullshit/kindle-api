@@ -3,9 +3,9 @@
 > TypeScript client for Kindle's unofficial API.
 
 <p>
-  <a href="https://github.com/transitive-bullshit/kindle-api-ky/actions/workflows/main.yml"><img alt="Build Status" src="https://github.com/transitive-bullshit/kindle-api-ky/actions/workflows/main.yml/badge.svg" /></a>
+  <a href="https://github.com/transitive-bullshit/kindle-api/actions/workflows/main.yml"><img alt="Build Status" src="https://github.com/transitive-bullshit/kindle-api/actions/workflows/main.yml/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/kindle-api-ky"><img alt="NPM" src="https://img.shields.io/npm/v/kindle-api-ky.svg" /></a>
-  <a href="https://github.com/transitive-bullshit/kindle-api-ky/blob/main/license"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
+  <a href="https://github.com/transitive-bullshit/kindle-api/blob/main/license"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
   <a href="https://prettier.io"><img alt="Prettier Code Formatting" src="https://img.shields.io/badge/code_style-prettier-brightgreen.svg" /></a>
 </p>
 
