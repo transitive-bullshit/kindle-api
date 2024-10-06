@@ -175,6 +175,8 @@ TLS_SERVER_URL='TODO'
 TLS_SERVER_API_KEY='TODO'
 ```
 
+You can checkout this repo, `pnpm install`, set up `.env`, and run `tsx bin/test.ts` to test things locally.
+
 ### Book Details
 
 ```ts
