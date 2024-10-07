@@ -232,3 +232,5 @@ This library is not endorsed or supported by Amazon / Kindle. It is an unofficia
 MIT © [Travis Fischer](https://x.com/transitive_bs)
 
 This package is rewrite and extension of https://github.com/Xetera/kindle-api.
+
+If you found this project interesting, [consider following me on Twitter](https://x.com/transitive_bs).
